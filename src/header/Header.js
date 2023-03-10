@@ -1,17 +1,36 @@
-import React , {Fragment} from 'react';
+import React , {Fragment, useContext} from 'react';
 import { Container , Typography , Box , AppBar , Toolbar , Button , IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import AuthContext from '../store/auth-context';
+
 
 const Header = () => {
+ const authCtx = useContext(AuthContext);
+ const isLoggedIn = authCtx.isLoggedIn;
+ const logoutHandler = () => {
+    authCtx.logout();
+    history.replace('/login');
+ }
+
   let history = useHistory();
-  let logout = useHistory();
+ 
 
   const handleClick = () => {
     history.push('/login');
   }
 
-  const logoutHandler = () => {
+  const profileHandler = () => {
+    history.push('/welcome');
+  }
+
+
+  // const logoutHandler = () => {
+  //   history.replace('/');
+  // }
+
+  const singupClick = () => {
     history.push('/');
   }
 
@@ -37,17 +56,25 @@ const Header = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Home
           </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            About
-          </Typography>
+        
+          {isLoggedIn && 
+          <Button onClick={profileHandler} variant="h6" component="div" sx={{fontSize : '1rem' , fontWeight : 'bold' , ml : '0px'  }}>
+            Profile
+          </Button>}
+
+          {isLoggedIn && 
           <Button onClick={logoutHandler} variant="h6" component="div" sx={{fontSize : '1rem' , fontWeight : 'bold' , ml : '0px'  }}>
             Logout
-          </Button>
+          </Button>}
 
        
           
-        
+          {!isLoggedIn &&
           <Button onClick={handleClick} color="inherit" sx={{fontSize : '1rem' , fontWeight : 'bold' , ml : '0px'}}>Login</Button>
+          }
+          {!isLoggedIn &&
+          <Button onClick={singupClick} color="inherit" sx={{fontSize : '1rem' , fontWeight : 'bold' , ml : '0px'}}>Signup</Button>
+          }
         </Toolbar>
       </AppBar>
     </Box>

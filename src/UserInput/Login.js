@@ -1,4 +1,4 @@
-import React , {Fragment, useState} from 'react';
+import React , {Fragment, useState, useContext} from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Container } from '@mui/system';
@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom';
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AuthContext from '../store/auth-context';
 
 const initialValues = {
    
@@ -16,8 +17,11 @@ const initialValues = {
     password : ""
     
 }
-const notify = () => toast("Login Failed");
+const notify = () => toast("Login Failed"); 
+
 const Input = () => {
+
+  const authCtx = useContext(AuthContext);
 
   const [loginStatus , setLoginStatus] = useState(false);
   const [loginButton , setLoginButton] = useState(true);
@@ -40,10 +44,15 @@ const Input = () => {
             }
           });
 
+          console.log('This is response data');
+          console.log(response);
+          authCtx.login(response.data.idToken);
+
           if(response.status === 200) {
             setLoginStatus(true);
             setLoginButton(true);
             history.replace('/welcome');
+            
           }
       
         } catch(error) {
@@ -52,7 +61,7 @@ const Input = () => {
           setLoginButton(false);
           setTimeout(() => {
             setLoginButton(true);
-          }, 5000);
+          }, 6000);
           notify();
       
         }
