@@ -7,6 +7,8 @@ import { useFormik } from 'formik';
 import {signUpSchema} from '../schemas/index';
 import { useHistory } from 'react-router-dom';
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialValues = {
    
@@ -14,14 +16,17 @@ const initialValues = {
     password : ""
     
 }
-
+const notify = () => toast("Login Failed");
 const Input = () => {
+
+  const [loginStatus , setLoginStatus] = useState(false);
+  const [loginButton , setLoginButton] = useState(true);
 
     let history = useHistory();
 
-    const handleClick = () => {
-      history.push('/welcome');
-    }
+    // const handleClick = () => {
+    //   history.replace('/welcome');
+    // }
 
     async function AddInputData (data) {
         try{
@@ -34,13 +39,25 @@ const Input = () => {
               returnSecureToken : true
             }
           });
-          console.log('Input Response');
-          console.log(response);
+
+          if(response.status === 200) {
+            setLoginStatus(true);
+            setLoginButton(true);
+            history.replace('/welcome');
+          }
       
         } catch(error) {
           console.log(error.message)
+          
+          setLoginButton(false);
+          setTimeout(() => {
+            setLoginButton(true);
+          }, 5000);
+          notify();
       
         }
+
+        
         
           }
 
@@ -49,12 +66,14 @@ const Input = () => {
     validationSchema : signUpSchema,
     onSubmit : (values , action, ) => {
 
+      
+      
       AddInputData(values);
     console.log(values);
 
      console.log('test input .');
       
-    //   action.resetForm();
+      // action.resetForm();
       
     }
   })
@@ -77,11 +96,6 @@ const Input = () => {
         '& > :not(style)': { m: 1 },
       }}
     >
-
-      {/* <Typography sx={{color : 'GrayText', fontSize : Bolt}}>
-        Input Data form 
-      </Typography> */}
-
       <TextField
         // helperText="Please enter your name"
         id="email"
@@ -112,15 +126,19 @@ const Input = () => {
     
 
       
-      <Button onClick={handleClick}  variant='contained' size='large' type='submit'>
+      { loginButton && <Button  variant='contained' size='large' type='submit'>
         Login
-      </Button>
+      </Button>}
+
+      { !loginButton && <Button  disabled size='large' type='submit'>
+        Login
+      </Button>}
 
     </Box>
 
   </form>
       </Container>
-      
+      <ToastContainer />
     </Fragment>
   )
 }

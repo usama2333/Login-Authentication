@@ -5,9 +5,14 @@ import { useHistory } from 'react-router-dom';
 
 const Header = () => {
   let history = useHistory();
+  let logout = useHistory();
 
   const handleClick = () => {
     history.push('/login');
+  }
+
+  const logoutHandler = () => {
+    history.push('/');
   }
 
   return (
@@ -35,9 +40,9 @@ const Header = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             About
           </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Contact
-          </Typography>
+          <Button onClick={logoutHandler} variant="h6" component="div" sx={{fontSize : '1rem' , fontWeight : 'bold' , ml : '0px'  }}>
+            Logout
+          </Button>
 
        
           

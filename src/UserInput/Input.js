@@ -6,6 +6,7 @@ import { Button, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import {signUpSchema} from '../schemas/index';
 import axios from "axios";
+import { useHistory } from 'react-router-dom';
 
 const initialValues = {
  
@@ -15,6 +16,8 @@ const initialValues = {
 }
 
 const Input = () => {
+
+  let history = useHistory();
 
   async function AddInputData (data) {
     try{
@@ -28,6 +31,10 @@ const Input = () => {
         }
         
       });
+
+      if(response.status === 200) {
+        history.push('/login');
+      }
   
     } catch(error) {
       console.log(error.message)
