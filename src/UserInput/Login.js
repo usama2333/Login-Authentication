@@ -46,6 +46,8 @@ const Input = () => {
 
           console.log('This is response data');
           console.log(response);
+
+          
           authCtx.login(response.data.idToken);
 
           if(response.status === 200) {

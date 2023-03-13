@@ -8,6 +8,7 @@ import { Route, Switch , Redirect } from 'react-router-dom';
 import Login from './UserInput/Login';
 import AuthContext from './store/auth-context';
 import { useContext } from 'react';
+import Profile from './test/Profile';
 
 
 
@@ -19,6 +20,7 @@ function App() {
     <div className="App">
     
        <Header/>
+      
        {/* <Test/> */}
        <Switch>
 
@@ -27,6 +29,14 @@ function App() {
          <Cards/>
        </Route>
        }
+
+       {authCtx.isLoggedIn && 
+       <Route path='/profile' >
+         <Profile/>
+       </Route>
+       }
+
+
        
        <Route path='/' exact>
          <Input/>

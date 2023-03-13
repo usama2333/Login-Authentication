@@ -21,8 +21,12 @@ const Header = () => {
     history.push('/login');
   }
 
-  const profileHandler = () => {
+  const homeHandler = () => {
     history.push('/welcome');
+  }
+
+  const backHandler = () => {
+    history.push('/profile');
   }
 
 
@@ -53,12 +57,12 @@ const Header = () => {
           </IconButton>
 
          
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Button onClick={homeHandler}   variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Home
-          </Typography>
+          </Button>
         
           {isLoggedIn && 
-          <Button onClick={profileHandler} variant="h6" component="div" sx={{fontSize : '1rem' , fontWeight : 'bold' , ml : '0px'  }}>
+          <Button onClick={backHandler} variant="h6" component="div" sx={{fontSize : '1rem' , fontWeight : 'bold' , ml : '0px'  }}>
             Profile
           </Button>}
 
